@@ -38,7 +38,9 @@ class ListShowsCommand extends Command
         $this
             ->addArgument('filename', InputArgument::REQUIRED, 'Filename to import')
             ->addArgument('query_date', InputArgument::REQUIRED, 'Query date')
-            ->addArgument('show_date', InputArgument::REQUIRED, 'Show date');
+            ->addArgument('show_date', InputArgument::REQUIRED, 'Show date')
+            ->addArgument('project_dir', InputArgument::OPTIONAL, 'Project directory')
+            ->addArgument('show_price', InputArgument::OPTIONAL, 'Show price or not', false);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -46,9 +48,11 @@ class ListShowsCommand extends Command
         $filename = $input->getArgument('filename');
         $queryDate = $input->getArgument('query_date');
         $showDate = $input->getArgument('show_date');
+        $projectDir = $input->getArgument('project_dir');
+        $showPrice = $input->getArgument('show_price');
 
-        $shows = $this->dataLoader->load($filename);
-        $inventory = $this->manager->getInventory($shows, $queryDate, $showDate);
+        $shows = $this->dataLoader->load($filename, $projectDir);
+        $inventory = $this->manager->getInventory($shows, $queryDate, $showDate, $showPrice);
         $data = ['inventory' => $inventory];
 
         $output->writeln(json_encode($data));

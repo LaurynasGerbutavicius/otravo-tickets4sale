@@ -12,18 +12,20 @@ namespace App\Model;
 class ShowInventoryManager
 {
     private $model;
+    private $pricingHandler;
 
-    public function __construct(ShowModel $model)
+    public function __construct(ShowModel $model, ShowPricingHandler $pricingHandler)
     {
         $this->model = $model;
+        $this->pricingHandler = $pricingHandler;
     }
 
-    public function getInventory($shows, $queryDate, $showDate)
+    public function getInventory($shows, $queryDate, $showDate, $showPrice = false)
     {
         $inventory = [];
 
         foreach ($shows as $show) {
-            $inventoryItem = $this->getInventoryItem($show, $queryDate, $showDate);
+            $inventoryItem = $this->getInventoryItem($show, $queryDate, $showDate, $showPrice);
 
             if (null === $inventoryItem) {
                 continue;
@@ -44,7 +46,7 @@ class ShowInventoryManager
         return $inventory;
     }
 
-    private function getInventoryItem($show, $queryDate, $showDate)
+    private function getInventoryItem($show, $queryDate, $showDate, $showPrice)
     {
         $openingDate = $show['opening'];
         $showStatus = $this->model->getStatus($openingDate, $queryDate, $showDate);
@@ -56,11 +58,18 @@ class ShowInventoryManager
         list ($ticketsLeft, $ticketsAvailable) = $this->model
             ->getTickets($showStatus, $openingDate, $queryDate, $showDate);
 
-        return [
+        $item = [
             'title' => $show['title'],
             'tickets_left' => $ticketsLeft,
             'tickets_available' => $ticketsAvailable,
             'status' => $showStatus
         ];
+
+        if ($showPrice) {
+            $item['price'] = $this->pricingHandler
+                ->getPrice($show['genre'], $this->model->getDatesDiff($openingDate, $showDate));
+        }
+
+        return $item;
     }
 }

@@ -13,9 +13,9 @@ class ShowDataLoader
 {
     const UPLOADS_DIR = "uploads";
 
-    public function load($filename)
+    public function load($filename, $projectDir)
     {
-        $file = file(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $filename, FILE_SKIP_EMPTY_LINES);
+        $file = file($projectDir . self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $filename, FILE_SKIP_EMPTY_LINES);
         $csv = array_map("str_getcsv", $file);
         $keys = ['title', 'opening', 'genre'];
         $inventory = [];

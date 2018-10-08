@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <form action="{{ path('index') }}" method="POST">
+        <label for="show_date">Show date:</label>
+        <input name="show_date" type="date" required="required" value="{{ show_date }}" />
+        <input type="submit" value="Submit"/>
+    </form>
+
+{% for group in list %}
+    <h2>{{ group.genre }}</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Tickets left</th>
+            <th>Tickets available</th>
+            <th>Status</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for show in group.shows %}
+                <tr>
+                    <td>{{ show.title }}</td>
+                    <td>{{ show.tickets_left }}</td>
+                    <td>{{ show.tickets_available }}</td>
+                    <td>{{ show.status }}</td>
+                    <td>{{ show.price }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endfor %}
+
+{% endblock %}

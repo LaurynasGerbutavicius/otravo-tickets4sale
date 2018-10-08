@@ -13,7 +13,7 @@ use App\Util\ShowDictionary;
 
 class ShowModel
 {
-    private function getDatesDiff($from, $to)
+    public function getDatesDiff($from, $to)
     {
         return (int)date_diff(new \DateTime($from), new \DateTime($to))->format('%r%a');
     }
