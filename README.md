@@ -19,6 +19,6 @@ US-2: web page
 
 Run server with command: `php -S 127.0.0.1:8000 -t public`
 
-Provides `shows.csv` file into uploads directory.
+Provide `shows.csv` file into uploads directory.
 
 Open browser: url `127.0.0.1:8000`
