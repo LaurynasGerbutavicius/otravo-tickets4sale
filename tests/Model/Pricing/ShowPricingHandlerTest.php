@@ -2,14 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: laurynas
- * Date: 18.10.8
- * Time: 23.45
+ * Date: 18.10.9
+ * Time: 20.06
  */
 
-namespace App\Tests\Model;
+namespace App\Tests\Model\Pricing;
 
 
-use App\Model\ShowPricingHandler;
+use App\Model\Pricing\ShowPricingHandler;
 use PHPUnit\Framework\TestCase;
 
 class ShowPricingHandlerTest extends TestCase

@@ -9,7 +9,8 @@
 namespace App\Command;
 
 
-use App\Model\ShowDataLoader;
+use App\Model\CsvDataLoader;
+use App\Model\DataLoader\FileDataLoaderInterface;
 use App\Model\ShowInventoryManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,7 +22,7 @@ class ListShowsCommand extends Command
     private $dataLoader;
     private $manager;
 
-    public function __construct(ShowDataLoader $dataLoader, ShowInventoryManager $manager)
+    public function __construct(FileDataLoaderInterface $dataLoader, ShowInventoryManager $manager)
     {
         $this->dataLoader = $dataLoader;
         $this->manager = $manager;

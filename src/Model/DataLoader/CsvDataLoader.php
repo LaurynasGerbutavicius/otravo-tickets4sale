@@ -6,13 +6,18 @@
  * Time: 21.11
  */
 
-namespace App\Model;
+namespace App\Model\DataLoader;
 
 
-class ShowDataLoader
+class CsvDataLoader implements FileDataLoaderInterface
 {
     const UPLOADS_DIR = "uploads";
 
+    /**
+     * @param $filename
+     * @param $projectDir
+     * @return array
+     */
     public function load($filename, $projectDir)
     {
         $file = file($projectDir . self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $filename, FILE_SKIP_EMPTY_LINES);

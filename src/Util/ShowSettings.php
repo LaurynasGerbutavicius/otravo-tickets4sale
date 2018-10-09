@@ -9,16 +9,11 @@
 namespace App\Util;
 
 
-class ShowDictionary
+class ShowSettings
 {
     const TICKET_SALE_START = -25;
     const SOLD_OUT_BEFORE = 5;
     const SHOW_RUNS_FOR = 100;
-
-    const STATUS_SALE_NOT_STARTED = "sale not started";
-    const STATUS_OPEN_FOR_SALE = "open for sale";
-    const STATUS_SOLD_OUT = "sold out";
-    const STATUS_IN_THE_PAST = "in the past";
 
     const BIG_HALL_PERFORMANCES = 60;
     const BIG_HALL_CAPACITY = 200;

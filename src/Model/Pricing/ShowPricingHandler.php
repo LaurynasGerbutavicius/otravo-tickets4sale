@@ -6,10 +6,10 @@
  * Time: 23.12
  */
 
-namespace App\Model;
+namespace App\Model\Pricing;
 
 
-class ShowPricingHandler
+class ShowPricingHandler implements PricingHandlerInterface
 {
     private $priceMap = [
         'musical' => 70,
@@ -20,6 +20,11 @@ class ShowPricingHandler
     const DISCOUNT_AFTER_SHOWS = 60;
     const DISCOUNT_COEFFICIENT = 0.8;
 
+    /**
+     * @param $genre
+     * @param $nthShow
+     * @return float|mixed
+     */
     public function getPrice($genre, $nthShow)
     {
         $price = $this->priceMap[trim(strtolower($genre))];

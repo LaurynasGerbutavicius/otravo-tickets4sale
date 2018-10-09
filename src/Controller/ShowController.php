@@ -22,6 +22,9 @@ class ShowController extends Controller
     /**
      * @Route("/", name="index")
      * @param Request $request
+     * @param KernelInterface $kernel
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function index(Request $request, KernelInterface $kernel)
     {

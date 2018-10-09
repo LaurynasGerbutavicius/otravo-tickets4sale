@@ -9,17 +9,34 @@
 namespace App\Model;
 
 
+use App\Model\Pricing\PricingHandlerInterface;
+use App\Model\Tickets\TicketSalesInterface;
+use App\Util\ShowDatesUtil;
+
 class ShowInventoryManager
 {
-    private $model;
+    private $statusHandler;
     private $pricingHandler;
+    private $ticketSales;
 
-    public function __construct(ShowModel $model, ShowPricingHandler $pricingHandler)
+    public function __construct(
+        ShowStatusHandler $statusHandler,
+        PricingHandlerInterface $pricingHandler,
+        TicketSalesInterface $ticketSales
+    )
     {
-        $this->model = $model;
+        $this->statusHandler = $statusHandler;
         $this->pricingHandler = $pricingHandler;
+        $this->ticketSales = $ticketSales;
     }
 
+    /**
+     * @param $shows
+     * @param $queryDate
+     * @param $showDate
+     * @param bool $showPrice
+     * @return array
+     */
     public function getInventory($shows, $queryDate, $showDate, $showPrice = false)
     {
         $inventory = [];
@@ -46,16 +63,23 @@ class ShowInventoryManager
         return $inventory;
     }
 
+    /**
+     * @param $show
+     * @param $queryDate
+     * @param $showDate
+     * @param $showPrice
+     * @return array|null
+     */
     private function getInventoryItem($show, $queryDate, $showDate, $showPrice)
     {
         $openingDate = $show['opening'];
-        $showStatus = $this->model->getStatus($openingDate, $queryDate, $showDate);
+        $showStatus = $this->statusHandler->getStatus($openingDate, $queryDate, $showDate);
 
         if (null === $showStatus) {
             return null;
         }
 
-        list ($ticketsLeft, $ticketsAvailable) = $this->model
+        list ($ticketsLeft, $ticketsAvailable) = $this->ticketSales
             ->getTickets($showStatus, $openingDate, $queryDate, $showDate);
 
         $item = [
@@ -67,7 +91,7 @@ class ShowInventoryManager
 
         if ($showPrice) {
             $item['price'] = $this->pricingHandler
-                ->getPrice($show['genre'], $this->model->getDatesDiff($openingDate, $showDate));
+                ->getPrice($show['genre'], ShowDatesUtil::getDatesDiff($openingDate, $showDate));
         }
 
         return $item;
